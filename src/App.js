@@ -1,25 +1,33 @@
-import logo from './logo.svg';
 import './App.css';
+import Login from './components/Login'
+import Navbar from './components/navBar'
+import Products from './components/Products'
+import {useState} from 'react'
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
-function App() {
+export default function App() {
+  const [token, setToken] = useState(localStorage.getItem("userToken") ?? null);//set Token to returned value or null(If user isn't connected)
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Navbar/>
+      <Routes>
+        <Route path="/" element={<Products/>}/>
+        <Route path="/login" element={<Login/>}/>
+      </Routes>
+    </Router>
+    
   );
 }
 
-export default App;
+// export default function App() {
+//   return (
+//       <Router>
+//         <Navbar/>
+//         <Routes>
+//           <Route path="/" element={<PokeList/>}/>
+//           <Route path="/pokedex" element={<Pokedex/>} />
+//         </Routes>
+//       </Router>
+//   );
+// }
