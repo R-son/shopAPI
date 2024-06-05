@@ -8,9 +8,9 @@ export default function Navbar() {
     <div className="navbar">
       <img src={logo} alt="Logo" className="navLogo" />
       <div className="navLinks">
-        <Link to="/" className="navLink button">Home</Link>
-        <Link to="/cart" className="navLink button">Cart</Link>
+        <Link to="/" className="navLink-button">Home</Link>
         <Link to="/login" className="loginButton">Login</Link>
+        <Link to="/cart" className="cartButton">Cart</Link>
       </div>
     </div>
   );

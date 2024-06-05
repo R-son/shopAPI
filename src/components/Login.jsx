@@ -1,5 +1,6 @@
 import React from 'react'
-import {useState, useEffect} from 'react';
+import {useState} from 'react';
+import {decodeToken} from 'react-jwt'
 
 export default function Login()
 {
@@ -15,14 +16,23 @@ export default function Login()
                 method:'POST',
                 headers: {
                     "Content-Type": "application/json",
-                  },
+                },
                 body:JSON.stringify({
-                    username: "mor_2314",
-                    password: "83r5^_",
+                    username: "johnd",
+                    password: "m38rmF$",
                 })
             })
-            .then(res=>res.json())
-            .then(json=>console.log(json))
+            const data = await response.json();
+            if(data.token) {
+                localStorage.setItem('authToken', data.token);
+                const decoded = decodeToken(data.token);
+                if (decoded) {
+                    const userId = decoded.sub;
+                    localStorage.setItem('userId', userId);
+                    // console.log(userId);
+                }
+            }
+            // console.log(localStorage.getItem('authToken'));
         } catch (err) {
             setError(err.message);
         }
@@ -42,7 +52,7 @@ export default function Login()
                 onChange={(e) => setpwd(e.target.value)} 
                 placeholder="Type your password"
             />
-            {error &&  <small>Wrong Username/Password</small>}
+            {/* {error &&  <small>Wrong Username/Password</small>} */}
             <button onClick={fetchUser}>Connect</button>
         </div>
     )
