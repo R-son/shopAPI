@@ -11,13 +11,20 @@ export default function Products() {
           .then(data => setProducts(data))
           .catch(error => console.error(error));
     }, [])
-    console.log(products);
+    // console.log(products);
+    console.log(localStorage.getItem('authToken'));
     return (
         <div>
-            <h1>{products.data}</h1>
-            <img src={products.image} alt='test'/>
+            {Object.values(products).map(product => (
+                <div key={product.id}>
+                    <p>{product.title}</p>
+                    <h2>{product.title}</h2>
+                    <p>{product.id}</p>
+                </div>
+            ))}
         </div>
     )
+        
 }
 
 

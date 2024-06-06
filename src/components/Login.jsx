@@ -1,61 +1,63 @@
-import React from 'react'
-import {useState} from 'react';
-import {decodeToken} from 'react-jwt'
+import React, { useState } from 'react';
+import { decodeToken } from 'react-jwt';
+import { useNavigate } from 'react-router-dom';
 
-export default function Login()
-{
-    const [userName, setuserName] = useState('');
-    const [pwd, setpwd] = useState('');
+export default function Login() {
+    const [userName, setUserName] = useState('');
+    const [pwd, setPwd] = useState('');
     const [error, setError] = useState('');
+    const navigate = useNavigate();
 
-    const fetchUser = async () =>
-    {
+    const fetchUser = async () => {
         setError('');
         try {
-            const response = await fetch('https://fakestoreapi.com/auth/login',{
-                method:'POST',
+            const response = await fetch('https://fakestoreapi.com/auth/login', {
+                method: 'POST',
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body:JSON.stringify({
-                    username: "johnd",
-                    password: "m38rmF$",
+                body: JSON.stringify({
+                    username: userName,
+                    password: pwd,
                 })
-            })
+            });
+
             const data = await response.json();
-            if(data.token) {
+            if (data.token) {
                 localStorage.setItem('authToken', data.token);
                 const decoded = decodeToken(data.token);
                 if (decoded) {
                     const userId = decoded.sub;
                     localStorage.setItem('userId', userId);
-                    // console.log(userId);
+                    window.dispatchEvent(new Event('storage')); // Trigger the storage event to update Navbar
+                    navigate('/');
                 }
+            } else {
+                setError('Invalid credentials');
             }
-            // console.log(localStorage.getItem('authToken'));
         } catch (err) {
             setError(err.message);
         }
-    }
+    };
 
     return (
         <div>
             <input 
                 type="text" 
                 value={userName}
-                onChange={(e) => setuserName(e.target.value)} 
+                onChange={(e) => setUserName(e.target.value)} 
                 placeholder="Type your username"
             />
             <input 
                 type="password" 
                 value={pwd}
-                onChange={(e) => setpwd(e.target.value)} 
+                onChange={(e) => setPwd(e.target.value)} 
                 placeholder="Type your password"
             />
-            {/* {error &&  <small>Wrong Username/Password</small>} */}
             <button onClick={fetchUser}>Connect</button>
+            {error && <p>{error}</p>}
         </div>
-    )
+    );
 }
 
 // username: "mor_2314",
