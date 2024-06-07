@@ -1,37 +1,79 @@
-import React, { createContext, useContext, useEffect, useReducer, useState } from "react";
-import {useNavigate} from 'react-router-dom';
+import React, { createContext, useState } from 'react';
 
 const CartContext = createContext();
 
-export const useCartContext = () => useContext(CartContext);
+export const CartProvider = ({ children }) => {
+    const [cartItems, setCartItems] = useState([]);
 
-export const CartProvider = ({children}) => {
-    const [cart, setCart] = useState({
-        products: [],
-        totalPrice: 0
-    });
-    const addProduct = (product) => {
-        let updatedCart;
-        setCart(currCart => {
-            if (currCart.products.find(p => p.id === product.id))
-                updatedCart = currCart.products.map(p => p.id === product.id ? { ...p, quantity: p.quantity + product.quantity } : p);
-            else
-            updatedCart = [...currCart.products, product];
-        const updatedTotalPrice = updatedCart.reduce((total, p) => total + p.price * p.quantity, 0);
-        return { ...currCart, products: updatedCart, totalPrice: updatedTotalPrice };
-    })
-}
-    const removeProduct = (productId) => {
-        setCart(currCart => {
-            let updatedCart = currCart.products.filter(p => p.id !== productId);
-            return { ...currCart, products: updatedCart, totalPrice: updatedCart.reduce((total, p) => total + p.price * p.quantity, 0)};
+    const increaseQuantity = (productId) => {
+        setCartItems(prevItems => {
+            return prevItems.map(item => {
+                if (item.productId === productId) {
+                    return { ...item, quantity: item.quantity + 1 };
+                }
+                return item;
+            });
         });
     };
-    const emptyCart = () => {
-        setCart({products:[], totalPrice:0});
-    }
-    const Validate = () => {
-        const navigate = useNavigate();
-        navigate('/checkout');
-    }
-}
+
+    const decreaseQuantity = (productId) => {
+        setCartItems(prevItems => {
+            return prevItems.map(item => {
+                if (item.productId === productId && item.quantity > 1) {
+                    return { ...item, quantity: item.quantity - 1 };
+                }
+                return item;
+            });
+        });
+    };
+
+    const addToCart = (product, quantity) => {
+        const existingItem = cartItems.find(item => item.productId === product.id);
+        if (existingItem) {
+            setCartItems(prevItems => {
+                return prevItems.map(item => {
+                    if (item.productId === product.id) {
+                        return { ...item, quantity: item.quantity + quantity };
+                    }
+                    return item;
+                });
+            });
+        } else {
+            setCartItems(prevItems => [...prevItems, { 
+                productId: product.id, 
+                title: product.title, 
+                price: product.price, 
+                image: product.image,
+                quantity 
+            }]);
+        }
+    };
+
+    const removeFromCart = (productId) => {
+        setCartItems(prevItems => prevItems.filter(item => item.productId !== productId));
+    };
+
+    const clearCart = () => {
+        setCartItems([]);
+    };
+
+    const cartTotal = () => {
+        return cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
+    };
+
+    const totalCount = () => {
+        return cartItems.reduce((count, item) => count + item.quantity, 0);
+    };
+
+    const pay = () => {
+        clearCart();
+    };
+
+    return (
+        <CartContext.Provider value={{ cartItems, increaseQuantity, decreaseQuantity, addToCart, removeFromCart, clearCart, cartTotal, totalCount, pay }}>
+            {children}
+        </CartContext.Provider>
+    );
+};
+
+export default CartContext;

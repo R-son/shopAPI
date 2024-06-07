@@ -1,9 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
-import '../styles/navBar.css';
+import { FaShoppingCart } from 'react-icons/fa';
+import CartContext from '../contexts/Cart';
+import '../styles/Navbar.css';
 import logo from '../res/ShopArnak.png';
 
 export default function Navbar() {
+    const { totalCount } = useContext(CartContext);
     const [token, setToken] = useState(localStorage.getItem('authToken'));
 
     useEffect(() => {
@@ -20,10 +23,16 @@ export default function Navbar() {
 
     return (
         <div className="navbar">
-            <img src={logo} alt="Logo" className="navLogo" />
+            <div className="navLogo">
+                <img src={logo} alt="Logo" className="logo-image" />
+            </div>
+            <h1 className="shop-name">ShopArnak</h1>
             <div className="navLinks">
                 <Link to="/" className="navLink-button">Home</Link>
-                <Link to="/cart" className="cartButton">Cart</Link>
+                <Link to="/cart" className="navLink-button">
+                    <FaShoppingCart />
+                    <span className="cart-count">{totalCount()}</span>
+                </Link>
                 {token ? 
                     <Link to="/logout" className="logoutButton">Logout</Link> :
                     <Link to="/login" className="loginButton">Login</Link>

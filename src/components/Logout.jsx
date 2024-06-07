@@ -9,8 +9,8 @@ export default function Logout() {
     localStorage.removeItem('authToken');
     localStorage.removeItem('userId');
     navigate('/');
-    window.dispatchEvent(new Event('storage')); // Trigger the storage event to update Navbar
+    window.dispatchEvent(new Event('storage'));
   }, [navigate]);
 
-  return null; // This component does not need to render anything
+  return null;
 }

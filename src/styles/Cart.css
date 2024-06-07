@@ -1,0 +1,164 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+.cart-container {
+    margin: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+.cart-container h2,
+.cart-container h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.cart-container button {
+    padding: 10px 20px;
+    margin-right: 10px;
+    cursor: pointer;
+    border: 2px solid transparent;
+    border-radius: 5px;
+    color: white;
+    font-size: 16px;
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+}
+
+.go-to-login {
+    background-color: #007bff;
+}
+
+.pay-button {
+    background-color: black;
+}
+
+.pay-button:hover,
+.empty-cart-button:hover,
+.shop-button:hover {
+    background-color: white;
+    color: black;
+}
+
+.empty-cart-button {
+    background-color: red;
+}
+
+.empty-cart-button:hover {
+    border: 2px solid red;
+    color: red;
+}
+
+.cart-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.cart-item img {
+    width: 100px;
+    margin-right: 20px;
+}
+
+.cart-item-details {
+    flex-grow: 1;
+}
+
+.cart-item-title {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.cart-item-quantity {
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+.quantity-controls {
+    display: flex;
+    align-items: center;
+}
+
+.quantity-controls button {
+    margin: 0 5px;
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+    border: none;
+    background-color: black;
+    color: white;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.quantity-controls button:hover {
+    background-color: white;
+    color: black;
+    border: 2px solid black;
+}
+
+.quantity-display {
+    font-size: 16px;
+    font-weight: bold;
+    margin: 0 10px;
+}
+
+.remove-item-button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.cart-totals {
+    margin-top: 20px;
+    align-self: flex-end;
+}
+
+.cart-totals p {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.shop-button {
+    font-size: 20px;
+    border: none;
+    background-color: black;
+    color: white;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+}
+
+.shop-button:hover {
+    border: 2px solid black;
+}
+
+.cart-container-no-log {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    text-align: center;
+}
+
+.cart-container-no-log h1 {
+    margin-bottom: 20px;
+}
+
+.cart-container-no-log button {
+    padding: 10px 20px;
+    margin-top: 10px;
+    cursor: pointer;
+    border: 2px solid transparent;
+    border-radius: 5px;
+    color: white;
+    font-size: 16px;
+}

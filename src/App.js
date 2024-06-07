@@ -4,34 +4,26 @@ import Navbar from './components/navBar'
 import Products from './components/Products'
 import Cart from './components/Cart'
 import Logout from './components/Logout'
-import {useState} from 'react'
+import Checkout from './components/Scammed'
+import ProductPage from './components/Product';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { CartProvider } from './contexts/Cart';
 
 export default function App() {
-  // const [token, setToken] = useState(localStorage.getItem("userToken") ?? null);//set Token to returned value or null(If user isn't connected)
-
   return (
     <Router>
-      <Navbar/>
-      <Routes>
-        <Route path="/" element={<Products/>}/>
-        <Route path="/cart" element={<Cart/>}></Route>
-        <Route path="/login" element={<Login/>}></Route>
-        <Route path="/logout" element={<Logout/>}></Route>
-      </Routes>
+      <CartProvider>
+        <Navbar/>
+        <Routes>
+          <Route path="/" element={<Products/>}/>
+          <Route path="/cart" element={<Cart/>}></Route>
+          <Route path="/login" element={<Login/>}></Route>
+          <Route path="/logout" element={<Logout/>}></Route>
+          <Route path="/checkout" element={<Checkout/>}></Route>
+          <Route path="/products/:productId" element={<ProductPage />} />
+        </Routes>
+      </CartProvider>
     </Router>
     
   );
 }
-
-// export default function App() {
-//   return (
-//       <Router>
-//         <Navbar/>
-//         <Routes>
-//           <Route path="/" element={<PokeList/>}/>
-//           <Route path="/pokedex" element={<Pokedex/>} />
-//         </Routes>
-//       </Router>
-//   );
-// }

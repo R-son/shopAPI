@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { decodeToken } from 'react-jwt';
 import { useNavigate } from 'react-router-dom';
+import '../styles/Login.css';
 
 export default function Login() {
     const [userName, setUserName] = useState('');
@@ -29,7 +30,7 @@ export default function Login() {
                 if (decoded) {
                     const userId = decoded.sub;
                     localStorage.setItem('userId', userId);
-                    window.dispatchEvent(new Event('storage')); // Trigger the storage event to update Navbar
+                    window.dispatchEvent(new Event('storage'));
                     navigate('/');
                 }
             } else {
@@ -41,21 +42,23 @@ export default function Login() {
     };
 
     return (
-        <div>
-            <input 
-                type="text" 
-                value={userName}
-                onChange={(e) => setUserName(e.target.value)} 
-                placeholder="Type your username"
-            />
-            <input 
-                type="password" 
-                value={pwd}
-                onChange={(e) => setPwd(e.target.value)} 
-                placeholder="Type your password"
-            />
-            <button onClick={fetchUser}>Connect</button>
-            {error && <p>{error}</p>}
+        <div className="login-container">
+            <div className="login-box">
+                <input 
+                    type="text" 
+                    value={userName}
+                    onChange={(e) => setUserName(e.target.value)} 
+                    placeholder="Type your username"
+                />
+                <input 
+                    type="password" 
+                    value={pwd}
+                    onChange={(e) => setPwd(e.target.value)} 
+                    placeholder="Type your password"
+                />
+                <button onClick={fetchUser}>Connect</button>
+                {error && <p>{error}</p>}
+            </div>
         </div>
     );
 }
